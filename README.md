@@ -39,3 +39,64 @@ Using clusters is not go to recipe for the blazing fast app, it can help but it'
 ### Webworker threads
 
 More about threads can be found here: https://www.npmjs.com/package/webworker-threads (cool lib, too)
+
+## Redis
+
+```js
+var redis = require('redis'),
+	client = redis.createClient();
+
+// if you'd like to select database 3, instead of 0 (default), call
+// client.select(3, function() { /* ... */ });
+
+client.on('error', function(err) {
+	console.log('Error ' + err);
+});
+
+client.set('string key', 'string val', redis.print); // Reply: OK
+client.hset('hash key', 'hashtest 1', 'some value', redis.print); // Reply: 0
+client.hset(['hash key', 'hashtest 2', 'some other value'], redis.print); // Reply: 0
+client.hkeys('hash key', function(err, replies) {
+	console.log(replies.length + ' replies:'); // 2 replies
+	replies.forEach(function(reply, i) {
+		console.log('    ' + i + ': ' + reply); //   0: hashtest 1, hashtest 2
+	});
+	client.quit();
+});
+
+// If we want to clean redis storage we can call:
+
+client.flushall();
+
+// If we want to get value from storage:
+
+client.get('string key', () => {});
+```
+
+#### Promises instead of callbacks
+
+If you are using node v8 or higher, you can promisify node_redis with util.promisify as in:
+
+```js
+const { promisify } = require('util');
+const getAsync = promisify(client.get).bind(client);
+```
+
+now getAsync is a promisified version of client.get:
+
+```js
+// We expect a value 'foo': 'bar' to be present
+// So instead of writing client.get('foo', cb); you have to write:
+return getAsync('foo').then(function(res) {
+	console.log(res); // => 'bar'
+});
+```
+
+or using async await:
+
+```js
+async myFunc() {
+    const res = await getAsync('foo');
+    console.log(res);
+}
+```
