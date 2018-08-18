@@ -14,7 +14,13 @@
 	},
 	"jest": {
 		"verbose": true,
-		"testURL": "http://localhost/"
+		"testURL": "http://localhost/",
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"/factories/",
+			"testSetup.js"
+		],
+		"setupTestFrameworkScriptFile": "./__tests__/testSetup.js"
 	},
 	"author": "",
 	"license": "ISC",

@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const sessionFactory = require('./factories/sessionFactory');
+const userFactory = require('./factories/userFactory');
 
 describe('Navigation', () => {
 	let browser;
@@ -30,21 +32,11 @@ describe('Navigation', () => {
 	});
 
 	it('should display correct buttons when user is logged in', async () => {
-		// Trick puppeteer browser that user is logged in
-		// We're using keygrip to create cookie and cookie signature
-		const Keygrip = require('keygrip');
-		const { Buffer } = require('safe-buffer');
-		const keys = require('../config/keys');
-		const id = '5b72cd1604be502a923cd1cb';
-		const sessionObject = { passport: { user: id } };
-		const sessionString = Buffer.from(JSON.stringify(sessionObject)).toString('base64');
-		const keygrip = new Keygrip([keys.cookieKey]);
-		// sig is checking that our cookie is not modified by 3rd party
-		const sig = keygrip.sign('session=' + sessionString);
-		/*******************************************************************/
+		const user = await userFactory();
+		const { session, sig } = sessionFactory(user);
 
 		// Set false cookies to browser instance
-		await page.setCookie({ name: 'session', value: sessionString });
+		await page.setCookie({ name: 'session', value: session });
 		await page.setCookie({ name: 'session.sig', value: sig });
 		// We have to refresh the page so that cookies come into effect
 		await page.goto('localhost:3000');
