@@ -13,7 +13,7 @@ describe('Navigation', () => {
 	});
 
 	it('should render header correctly', async () => {
-		const text = await page.$eval('a.brand-logo', el => el.innerHTML);
+		const text = await page.getContentsOf('a.brand-logo');
 
 		expect(text).toBe('Overload');
 	});
@@ -29,7 +29,7 @@ describe('Navigation', () => {
 	it('should display correct buttons when user is logged in', async () => {
 		await page.login();
 
-		const logoutText = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
+		const logoutText = await page.getContentsOf('a[href="/auth/logout"]');
 
 		expect(logoutText).toBe('Logout');
 	});

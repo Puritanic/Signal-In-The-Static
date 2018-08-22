@@ -30,6 +30,11 @@ class CustomPage {
 		// wait for anchor to be rendered (tests are trying to be as fast as possible
 		// so this test will fail becuse the test will be finished by the time anchor is rendered)
 		await this.page.waitFor('a[href="/auth/logout"]');
+		await this.page.goto('localhost:3000/blogs');
+	}
+
+	getContentsOf(selector) {
+		return this.page.$eval(selector, el => el.innerHTML);
 	}
 }
 
