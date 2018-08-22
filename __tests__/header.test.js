@@ -1,5 +1,3 @@
-const sessionFactory = require('./factories/sessionFactory');
-const userFactory = require('./factories/userFactory');
 const Page = require('./helpers/page');
 
 describe('Navigation', () => {
@@ -29,17 +27,7 @@ describe('Navigation', () => {
 	});
 
 	it('should display correct buttons when user is logged in', async () => {
-		const user = await userFactory();
-		const { session, sig } = sessionFactory(user);
-
-		// Set false cookies to browser instance
-		await page.setCookie({ name: 'session', value: session });
-		await page.setCookie({ name: 'session.sig', value: sig });
-		// We have to refresh the page so that cookies come into effect
-		await page.goto('localhost:3000');
-		// wait for anchor to be rendered (tests are trying to be as fast as possible
-		// so this test will fail becuse the test will be finished by the time anchor is rendered)
-		await page.waitFor('a[href="/auth/logout"]');
+		await page.login();
 
 		const logoutText = await page.$eval('a[href="/auth/logout"]', el => el.innerHTML);
 
