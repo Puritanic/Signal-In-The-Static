@@ -18,6 +18,7 @@
 		"testPathIgnorePatterns": [
 			"/node_modules/",
 			"/factories/",
+			"/helpers/",
 			"testSetup.js"
 		],
 		"setupTestFrameworkScriptFile": "./__tests__/testSetup.js"
