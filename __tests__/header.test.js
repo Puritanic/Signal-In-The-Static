@@ -26,11 +26,15 @@ describe('Navigation', () => {
 		expect(url).toMatch(/accounts\.google\.com/);
 	});
 
-	it('should display correct buttons when user is logged in', async () => {
-		await page.login();
+	describe('when user logged in', () => {
+		beforeEach(async () => {
+			await page.login();
+		});
 
-		const logoutText = await page.getContentsOf('a[href="/auth/logout"]');
+		it('should display correct buttons', async () => {
+			const logoutText = await page.getContentsOf('a[href="/auth/logout"]');
 
-		expect(logoutText).toBe('Logout');
+			expect(logoutText).toBe('Logout');
+		});
 	});
 });
