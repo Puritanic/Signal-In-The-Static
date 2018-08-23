@@ -36,6 +36,36 @@ class CustomPage {
 	getContentsOf(selector) {
 		return this.page.$eval(selector, el => el.innerHTML);
 	}
+
+	get(url) {
+		return this.page.evaluate(
+			_url =>
+				fetch(_url, {
+					method: 'GET',
+					credentials: 'same-origin',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				}).then(res => res.json()),
+			url
+		);
+	}
+
+	post(url, body) {
+		return this.page.evaluate(
+			(_url, _body) =>
+				fetch(_url, {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(_body),
+				}).then(res => res.json()),
+			url,
+			body
+		);
+	}
 }
 
 module.exports = CustomPage;

@@ -67,30 +67,16 @@ describe('Blogs - ', async () => {
 
 	describe('When not logged in', () => {
 		it('user should not be able to crete post', async () => {
-			const result = await page.evaluate(() => {
-				return fetch('api/blogs', {
-					method: 'POST',
-					credentials: 'same-origin',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ title: 'Some title', content: 'Some content' }),
-				}).then(res => res.json());
+			const result = await page.post('api/blogs', {
+				title: 'Some Title',
+				content: 'Some content',
 			});
 
 			expect(result).toEqual({ error: 'You must log in!' });
 		});
 
 		it('user should not be able to get a list of posts', async () => {
-			const result = await page.evaluate(() => {
-				return fetch('api/blogs', {
-					method: 'GET',
-					credentials: 'same-origin',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}).then(res => res.json());
-			});
+			const result = await page.get('api/blogs');
 
 			expect(result).toEqual({ error: 'You must log in!' });
 		});
