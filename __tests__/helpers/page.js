@@ -4,7 +4,7 @@ const userFactory = require('../factories/userFactory');
 
 class CustomPage {
 	static async build() {
-		const browser = await puppeteer.launch({ headless: false });
+		const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
 		const page = await browser.newPage();
 		const customPage = new CustomPage(page);
 
@@ -26,11 +26,11 @@ class CustomPage {
 		await this.page.setCookie({ name: 'session', value: session });
 		await this.page.setCookie({ name: 'session.sig', value: sig });
 		// We have to refresh the this.page so that cookies come into effect
-		await this.page.goto('localhost:3000');
+		await this.page.goto('http://localhost:3000');
 		// wait for anchor to be rendered (tests are trying to be as fast as possible
 		// so this test will fail becuse the test will be finished by the time anchor is rendered)
 		await this.page.waitFor('a[href="/auth/logout"]');
-		await this.page.goto('localhost:3000/blogs');
+		await this.page.goto('http://localhost:3000/blogs');
 	}
 
 	getContentsOf(selector) {
