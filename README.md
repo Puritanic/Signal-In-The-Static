@@ -1,4 +1,8 @@
-# Advanced Node - Notes
+# Signal in the static
+
+---
+
+## Advanced Node - Notes
 
 **Node is based on:**
 
