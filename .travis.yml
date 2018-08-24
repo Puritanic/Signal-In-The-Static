@@ -5,17 +5,15 @@ cache:
 dist: trusty
 env: NODE_ENV=ci PORT=3000
 install:
-    - 'npm install'
+    - npm install
     - npm run build
 language: node_js
 node_js:
     - '8'
-before_script:
-    - redis-cli info
-    - npm run start &
 script:
-    - 'sleep 9'
-    - 'npm run test'
+    - nohup npm run start &
+    - sleep 3
+    - npm run test
 services:
     - mongodb
     - redis-server
