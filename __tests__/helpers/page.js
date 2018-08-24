@@ -26,11 +26,11 @@ class CustomPage {
 		await this.page.setCookie({ name: 'session', value: session });
 		await this.page.setCookie({ name: 'session.sig', value: sig });
 		// We have to refresh the this.page so that cookies come into effect
-		await this.page.goto('http://localhost:3000');
+		await this.page.goto('127.0.0.1:3000');
 		// wait for anchor to be rendered (tests are trying to be as fast as possible
 		// so this test will fail becuse the test will be finished by the time anchor is rendered)
 		await this.page.waitFor('a[href="/auth/logout"]');
-		await this.page.goto('http://localhost:3000/blogs');
+		await this.page.goto('127.0.0.1:3000/blogs');
 	}
 
 	getContentsOf(selector) {

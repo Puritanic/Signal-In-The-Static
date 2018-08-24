@@ -11,6 +11,7 @@ language: node_js
 node_js:
     - '8'
 before_script:
+    - redis-cli info
     - npm run start &
 script:
     - 'sleep 9'

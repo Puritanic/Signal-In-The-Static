@@ -5,7 +5,7 @@ describe('Navigation', () => {
 
 	beforeEach(async () => {
 		page = await Page.build();
-		await page.goto('http://localhost:3000');
+		await page.goto('127.0.0.1:3000');
 	});
 
 	afterEach(async () => {
