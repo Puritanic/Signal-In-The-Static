@@ -12,7 +12,7 @@ node_js:
     - '8'
 script:
     - 'nohup npm run start &'
-    - 'sleep 3'
+    - 'sleep 9'
     - 'npm run test'
 services:
     - mongodb
