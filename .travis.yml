@@ -3,9 +3,7 @@ cache:
         - node_modules
         - client/node_modules
 dist: trusty
-env:
-    - NODE_ENV=ci
-    - PORT=3000
+env: NODE_ENV=ci PORT=3000
 install:
     - 'npm install'
     - 'npm run build'
